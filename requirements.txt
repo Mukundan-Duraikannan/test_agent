@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+gitpython
+pydantic
+pathlib
+python-dotenv
+aiofiles
