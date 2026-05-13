@@ -6,3 +6,7 @@ pydantic
 pathlib
 python-dotenv
 aiofiles
+
+networkx
+tree-sitter
+tree-sitter-languages

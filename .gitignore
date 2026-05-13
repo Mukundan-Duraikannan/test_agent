@@ -8,7 +8,7 @@ __pycache__/
 .env
 .env.*
 
-
+storage
 
 .DS_Store
 Thumbs.db
