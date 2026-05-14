@@ -12,9 +12,18 @@ from analyzers.graph_builder import build_architecture_graph
 from analyzers.graph_visualizer import generate_interactive_graph
 from analyzers.export_neo import export_to_neo4j
 from intelligence.architecture_intelligence import (analyze_architecture_intelligence)
+from rag.chunking_service import (build_code_chunks)
+from rag.embedding_service import (generate_embeddings)
+from rag.vector_store import (build_vector_store)
+from rag.chunking_service import (save_chunks_to_json)
 
-REPO_DIR = Path("storage/repos")
-UPLOAD_DIR = Path("storage/uploads")
+BASE_DIR = Path(__file__).resolve().parent
+
+STORAGE_DIR = BASE_DIR / "storage"
+
+REPO_DIR = STORAGE_DIR / "repos"
+
+UPLOAD_DIR = STORAGE_DIR / "uploads"
 
 REPO_DIR.mkdir(parents=True, exist_ok=True)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -106,6 +115,25 @@ def scan_project(project_path: str):
     endpoints=endpoints_data["endpoints"],
     prompts=prompts
     )
+
+    chunks = build_code_chunks(
+    project_path=project_path,
+    endpoints=endpoints_data["endpoints"],
+    prompts=prompts,
+    architecture_intelligence=intelligence_data
+    )
+    print("TOTAL CHUNKS:", len(chunks))
+    embedded_chunks = generate_embeddings(
+        chunks
+    )
+    print("TOTAL EMBEDDED CHUNKS:", len(embedded_chunks))
+    vector_store_data = build_vector_store(
+        embedded_chunks
+    )
+
+    chunk_file = save_chunks_to_json(
+    chunks,
+    filename="project_chunks.json")
     export_to_neo4j(graph_data)
     return {
 
@@ -123,4 +151,6 @@ def scan_project(project_path: str):
         "architecture_graph": architecture_graph,
         "graph_visualization": graph_url,
         "architecture_intelligence":intelligence_data,
+        "vector_store": vector_store_data,
+        "chunk_file": chunk_file,
     }

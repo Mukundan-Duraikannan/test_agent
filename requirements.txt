@@ -10,3 +10,8 @@ aiofiles
 networkx
 tree-sitter
 tree-sitter-languages
+
+sentence-transformers
+faiss-cpu
+numpy
+langchain

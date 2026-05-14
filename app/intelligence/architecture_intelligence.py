@@ -4,7 +4,7 @@ from intelligence.tool_call_detector import detect_tool_calls
 from intelligence.auth_flow_analyzer import analyze_auth_flows
 from intelligence.execution_flow_builder import build_execution_flows
 from intelligence.risk_detector import detect_risks
-
+from intelligence.endpoint_flow_mapper import (map_endpoint_flows)
 def analyze_architecture_intelligence(project_path,endpoints,prompts):
 
     retrievals = detect_retrieval_flows(project_path)
@@ -27,12 +27,16 @@ def analyze_architecture_intelligence(project_path,endpoints,prompts):
         prompts,
         auth_flows
     )
-
+    endpoint_flows = map_endpoint_flows(
+    project_path,
+    endpoints
+    )
     return {
         "retrieval_flows": retrievals,
         "memory_usage": memories,
         "tool_calls": tools,
         "auth_flows": auth_flows,
         "execution_flows": execution_flows,
-        "risks": risks
+        "risks": risks,
+        "endpoint_flows": endpoint_flows,
     }
