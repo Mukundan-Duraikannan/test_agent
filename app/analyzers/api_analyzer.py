@@ -1,5 +1,3 @@
-# analyzers/api_analyzer.py
-
 import ast
 from pathlib import Path
 

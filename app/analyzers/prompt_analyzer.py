@@ -44,13 +44,8 @@ def extract_prompts(project_path):
 
                             variable_name = target.id.lower()
 
-                            if any(
-                                k in variable_name
-                                for k in PROMPT_VARIABLES
-                            ):
-
+                            if any(k in variable_name for k in PROMPT_VARIABLES):
                                 if isinstance(node.value, ast.Constant):
-
                                     prompts.append({
                                         "file": str(file),
                                         "type": "static_prompt",
