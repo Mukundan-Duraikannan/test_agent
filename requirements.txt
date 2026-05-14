@@ -15,3 +15,5 @@ sentence-transformers
 faiss-cpu
 numpy
 langchain
+
+ollama
